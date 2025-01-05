@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, HttpLink, ApolloProvider } from '@apollo/client';
-import Home from './pages/Home'
+import GraphQL from './pages/GraphQL.tsx'
 import About from './pages/About'
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<GraphQL />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>
