@@ -18,7 +18,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<GraphQL />} />
+          <Route path="/graphql" element={<GraphQL />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>
