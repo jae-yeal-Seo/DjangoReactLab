@@ -15,7 +15,8 @@ query {
 }
 `;
 
-  const { loading, error, data:inventoryData } = useQuery(GET_INVENTORY);
+
+  const { loading:inventoryLoading, error:inventoryError, data:inventoryData } = useQuery(GET_INVENTORY);
 
 
   const showGraphQl = (queryData:object):void => {
