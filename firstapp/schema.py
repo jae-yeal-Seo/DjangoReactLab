@@ -14,8 +14,6 @@ class Query(graphene.ObjectType):
     inventory_list = graphene.List(InventoryType)
     # Queries - Arguments
     inventory = graphene.Field(InventoryType, id=graphene.Int(required=True))
-    # Queries - Aliases
-    # 一つのリクエストでいろんなクエリを実行したいとき、そのクエリからのデータに名前を付けて使うためにつかったらりり。
 
     def resolve_inventory_list(self, info, **kwargs):
         return Inventory.objects.all()
