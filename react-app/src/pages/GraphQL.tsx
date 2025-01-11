@@ -1,7 +1,7 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useLazyQuery  } from '@apollo/client';
 
-// クエリの形式
+// クエリ(READ)の形式
 // query {
 // クエリの名前(クエリに入れるパラメータ){
 // クエリの結果の中で取りたいフィールド
@@ -10,6 +10,7 @@ import { gql, useQuery } from '@apollo/client';
 
 function GraphQL() {
 
+// -----------------Query-----------------
   const GET_INVENTORY = gql`
 query {
   inventory(id: 1) {
@@ -33,16 +34,36 @@ query {
 }
  `;
 
+// パラメータをもらうクエリは以下のようにクエリの実行する
+// タイプ指定はjsx,tsx両方いる
+ const GET_FETCH_INVENTORY = gql`
+query ($id:Int!){
+    inventory(id: $id) {
+    productName,
+    quantityInStock
+  }
+}
+ `;
+// -----------------Mutaion-----------------
+
 
   const { loading:inventoryLoading, error:inventoryError, data:inventoryData } = useQuery(GET_INVENTORY);
   const { loading:multiQueryLoading, error:multiQueryError, data:multiQueryData } = useQuery(GET_MULTI_QUERY);
+  // ボタンをクリックする際実行させるための関数fetchInventory
+  const [fetchInventory, { loading, data:fetchData, error }] = useLazyQuery(GET_FETCH_INVENTORY,{ variables: { id: 1 } });
   // ForeignKeyを通じて参照しているデータを持ってくる＆その中で必要なデータだけ選択する。
-  // M：M関係のテーブルのデータを持ってくる。
+  // N：M関係のテーブルのデータを持ってくる。
 
 
   const showGraphQl = (queryData:object):void => {
     console.log(queryData)
   }
+
+  const handleFetchInventory = () => {
+    fetchInventory();
+    console.log(fetchData)
+  };
+
 
   return (
     <div style={styles.container}>
@@ -51,6 +72,18 @@ query {
       </button>
       <button style={styles.button} onClick={() => showGraphQl(multiQueryData)}>
         マルチクエリ
+      </button>
+      <button style={styles.button} onClick={handleFetchInventory}>
+        ボタンをクリックしたらリクエスト実行
+        {fetchData &&
+          <>
+          <br/>
+          結果
+          <br/>
+          製品名：{fetchData?.inventory.productName}
+          <br/>
+          在庫量：{fetchData?.inventory.quantityInStock}</>
+        }
       </button>
     </div>
   );
