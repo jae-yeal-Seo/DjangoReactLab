@@ -46,12 +46,13 @@ query ($id:Int!){
  `;
 // -----------------Mutaion-----------------
 
-
   const { loading:inventoryLoading, error:inventoryError, data:inventoryData } = useQuery(GET_INVENTORY);
   const { loading:multiQueryLoading, error:multiQueryError, data:multiQueryData } = useQuery(GET_MULTI_QUERY);
   // ボタンをクリックする際実行させるための関数fetchInventory
   const [fetchInventory, { loading, data:fetchData, error }] = useLazyQuery(GET_FETCH_INVENTORY,{ variables: { id: 1 } });
+
   // ForeignKeyを通じて参照しているデータを持ってくる＆その中で必要なデータだけ選択する。
+
   // N：M関係のテーブルのデータを持ってくる。
 
 
